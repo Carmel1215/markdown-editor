@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Editor from "./Editor";
 import Preview from "./Preview";
 import { copyToClipboard } from "../utils/fileUtils";
@@ -6,6 +6,16 @@ import { copyToClipboard } from "../utils/fileUtils";
 export default function Screen() {
     const [text, setText] = useState("");
     const [isCopied, setIsCopied] = useState(false);
+
+    useEffect(() => {
+        if (isCopied) {
+            const timer = setTimeout(() => {
+                setIsCopied(false);
+            }, 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [isCopied]);
 
     return (
         <div className="flex h-full px-3">
@@ -19,9 +29,6 @@ export default function Screen() {
                     onClick={() => {
                         copyToClipboard(text);
                         setIsCopied(true);
-                        setTimeout(() => {
-                            setIsCopied(false);
-                        }, 1000);
                     }}
                 >
                     {isCopied ? "Copied!" : "Copy"}
