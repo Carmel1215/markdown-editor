@@ -5,7 +5,7 @@ export default function App() {
     return (
         <div className="h-full">
             <NavBar />
-            <Screen></Screen>
+            <Screen />
         </div>
     );
 }
